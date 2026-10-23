@@ -6,7 +6,7 @@
 
 不用登录 · 下载原视频抽帧读字幕 · 按章节定位重点 · 提到的工具逐个核实
 
-[![version](https://img.shields.io/badge/version-0.1.0-111111?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.1.1-111111?style=flat-square)](CHANGELOG.md)
 [![license](https://img.shields.io/badge/license-MIT-2ea44f?style=flat-square)](LICENSE)
 [![node](https://img.shields.io/badge/Node.js-18%2B-339933?style=flat-square&logo=nodedotjs&logoColor=white)](#技术栈与依赖)
 [![ffmpeg](https://img.shields.io/badge/ffmpeg-required-000000?style=flat-square)](#技术栈与依赖)
@@ -14,6 +14,10 @@
 [![stars](https://img.shields.io/github/stars/LiliLIN0324/xiaohongshu-video-research-skill?style=social)](https://github.com/LiliLIN0324/xiaohongshu-video-research-skill/stargazers)
 
 [快速开始](#快速开始) · [实测数据](#实测数据) · [术语对照](#术语对照) · [技术栈](#技术栈与依赖) · [English](README.en.md)
+
+<a href="assets/demo.mp4"><img src="assets/demo.gif" alt="演示：取元数据 → 按章节轴定位 → 抽帧拼图 → 裁剪读小字 → 逐个核实 → 出报告" width="840"></a>
+
+<sub>点图片看完整成片（19 秒 · 1080p · 30fps）。画面里全是<b>合成样例数据</b>，不含任何真实笔记的内容；录制方式见[与演录联动](#与-演录-联动)。</sub>
 
 </div>
 
@@ -162,6 +166,20 @@ sheets  2 页 / 每页6帧 / 间隔6s
 - **为什么跳过 `mediaV2`**：它是一个被按字符位置展开的巨型字符串，直接读取会吐出几万个碎片键，一次调用就能把上下文撑爆。
 - **为什么核实是硬步骤**：小红书上的 AI 教程大量引用刚发布、查不到的模型版本号，也有相当比例是引流内容。跳过核实，调研就退化成转述。
 
+## 与 演录 联动
+
+顶部那段演示视频不是贴图动画，是用同作者的另一个技能 **[`演录 · web-demo-video`](https://github.com/LiliLIN0324/web-demo-video-skill)** 逐帧录出来的：先在浏览器里真跑一个可点的演示台，再用真实指针与真实点击把它录成 1080p 视频。
+
+| 谁负责什么 | 拆条（本仓库） | 演录 |
+|---|---|---|
+| 产出 | 元数据、章节轴、抽帧拼图、核实结论、调研报告 | 把任意网页 demo 录成 1080p/30fps 成片 |
+| 手法 | 渲染页面 → 读它自带的数据 → ffmpeg 抽帧 | 逐帧截图 + CDP 真实派发点击，不用录屏软件 |
+| 衔接点 | 报告与拼图是给人看的中间产物 | 拿这些产物做页面，就能录成分享用的短片 |
+
+这次录制的实际数字：**577 帧 / 19.2 秒 / 7 次真实点击 / 1920×1080@30fps**，成片 743 KB、GIF 预览 931 KB。演示台页面用的是合成样例数据，每个按钮都真的会改变页面状态——不是摆着好看的假控件。
+
+反方向也成立：先用拆条把一条笔记拆成结构化结论，再让演录把这份结论录成一条能直接发出去的短片，观众不用读长文就知道这条笔记讲了什么、哪些地方靠不住。
+
 ## 技术栈与依赖
 
 | 层 | 用什么 | 为什么是它 |
@@ -174,6 +192,7 @@ sheets  2 页 / 每页6帧 / 间隔6s
 | 站外核实 | `gh api`（GitHub 官方接口）+ 联网搜索 | 仓库真伪和 star 数以官方接口为准，不采信视频里的说法 |
 | 产出 | JSON（元数据）、JPG 拼图、Markdown 报告 | 三段产物各自给人看 / 给 AI 读，方便直接进笔记软件 |
 | 平台 | Windows / macOS / Linux | ffmpeg 与 Node 跨平台；ffmpeg 路径自动扫描发现 |
+| 演示素材 | [`演录 · web-demo-video`](https://github.com/LiliLIN0324/web-demo-video-skill) 逐帧录制 | 指针、点击、状态切换都真发生在页面上，不是后期贴图 |
 
 **不需要**小红书账号，也不需要 `pip`/`npm install` 任何东西。
 
@@ -221,6 +240,8 @@ AGENTS.md                   通用入口：任何 agent 读这一份就能开工
 CLAUDE.md / GEMINI.md       指向 AGENTS.md（给只认固定文件名的 agent）
 scripts/page-extract.js     浏览器侧取数：拆 Vue ref、识别页面类型、绕开 mediaV2、挑最清晰的源
 scripts/sheets.mjs          下载 + 抽帧拼图：自动定位 ffmpeg.exe、按页输出并标注时间区间
+assets/demo.mp4             顶部演示成片（19 秒 1080p，合成样例数据）
+assets/demo.gif             同一成片的 GIF 预览，供 README 直接显示
 CHANGELOG.md                版本记录
 ```
 
@@ -247,7 +268,7 @@ CHANGELOG.md                版本记录
 
 ## 版本
 
-当前 **0.1.0**：首个公开版本。取数脚本、抽帧脚本、7 条硬规则、核实环节与报告模板，均基于一条 72 秒真实视频端到端验证。
+当前 **0.1.1**：文档改版。README 换成大白话、补「术语对照」与「技术栈与依赖」、移除被调研笔记的内容、加演示视频与[与 演录 联动](#与-演录-联动)一节。脚本行为与 0.1.0 一致：取数脚本、抽帧脚本、7 条硬规则、核实环节与报告模板，均基于真实笔记端到端验证。
 
 完整改动见 [CHANGELOG.md](CHANGELOG.md)。
 

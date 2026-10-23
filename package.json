@@ -1,6 +1,6 @@
 {
   "name": "xiaohongshu-video-research-skill",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "description": "Research Xiaohongshu video notes: pull SSR metadata without login, download the source, tile frames to read burned-in subtitles, and verify every tool the note mentions.",

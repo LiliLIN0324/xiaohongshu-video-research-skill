@@ -6,7 +6,7 @@
 
 No login needed · download the video and read the text on screen · follow the creator's own chapter markers · check every tool the note mentions
 
-[![version](https://img.shields.io/badge/version-0.1.0-111111?style=flat-square)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.1.1-111111?style=flat-square)](CHANGELOG.md)
 [![license](https://img.shields.io/badge/license-MIT-2ea44f?style=flat-square)](LICENSE)
 [![node](https://img.shields.io/badge/Node.js-18%2B-339933?style=flat-square&logo=nodedotjs&logoColor=white)](#stack-and-requirements)
 [![ffmpeg](https://img.shields.io/badge/ffmpeg-required-000000?style=flat-square)](#stack-and-requirements)
@@ -14,6 +14,10 @@ No login needed · download the video and read the text on screen · follow the 
 [![stars](https://img.shields.io/github/stars/LiliLIN0324/xiaohongshu-video-research-skill?style=social)](https://github.com/LiliLIN0324/xiaohongshu-video-research-skill/stargazers)
 
 [Quick start](#quick-start) · [Measured run](#real-case) · [Glossary](#glossary) · [Stack](#stack-and-requirements) · [中文 · 拆条](README.md)
+
+<a href="assets/demo.mp4"><img src="assets/demo.gif" alt="Demo: extract metadata → jump along the chapter axis → tile frames → crop for fine print → verify each entity → write the report" width="840"></a>
+
+<sub>Click the image for the full clip (19 s · 1080p · 30fps). Everything on screen is <b>synthetic sample data</b> — no real note content. How it was recorded: [paired with web-demo-video](#paired-with-playback).</sub>
 
 </div>
 
@@ -173,6 +177,22 @@ Four key decisions:
 - **Why skip `mediaV2`** — it is a JSON string expanded character by character; reading it emits tens of thousands of fragments and blows the context in one call.
 - **Why verification is a hard step** — AI tutorial notes on the platform routinely cite brand-new, unverifiable model versions, and a meaningful share are funnel content. Skip verification and research degrades into restating.
 
+<a id="paired-with-playback"></a>
+
+## Paired with web-demo-video
+
+The clip at the top is not a mock-up animation. It was recorded frame by frame with its sibling skill [`web-demo-video`](https://github.com/LiliLIN0324/web-demo-video-skill): build a page that really works, drive a real cursor and real clicks through it, and screenshot every frame.
+
+| Who does what | This skill | web-demo-video |
+|---|---|---|
+| Output | metadata, chapter axis, contact sheets, verification, report | any web demo turned into a 1080p/30fps clip |
+| Method | render the page, read the data it ships, tile frames with ffmpeg | per-frame capture, clicks dispatched over CDP — no screen recorder |
+| Hand-off | the report and sheets are artifacts meant to be shown | point the recorder at a page built from them and you get a shareable clip |
+
+Numbers from this recording: **577 frames / 19.2 s / 7 real clicks / 1920×1080@30fps**, 743 KB MP4 and a 931 KB GIF preview. The demo page runs on synthetic sample data, and every button genuinely changes page state — nothing there is a decorative control.
+
+The chain works the other way too: break a note down first, then record the finding as a short clip, so a viewer learns what the note claims and where it is shaky without reading a long report.
+
 <a id="stack-and-requirements"></a>
 
 ## Stack and requirements
@@ -187,6 +207,7 @@ Four key decisions:
 | Verification | `gh api` (GitHub's official API) + web search | Repo existence and star counts come from the authoritative source, never from what the video claims |
 | Output | JSON (metadata), JPG contact sheets, a Markdown report | Each artifact serves its reader: machine-readable, human-glanceable, note-taking-ready |
 | Platforms | Windows / macOS / Linux | Node and ffmpeg are portable; the ffmpeg binary is located by a bounded directory scan |
+| Demo clip | recorded frame by frame with [`web-demo-video`](https://github.com/LiliLIN0324/web-demo-video-skill) | the cursor, the clicks and the state changes really happen in the page — nothing is composited afterwards |
 
 **Not required**: a Xiaohongshu account, cookies, or any package installation.
 
@@ -227,6 +248,8 @@ AGENTS.md                   Generic entry: 7 non-negotiable rules + shortest wor
 CLAUDE.md / GEMINI.md       Pointers for agents that only read fixed filenames
 scripts/page-extract.js     In-page extractor: ref unwrapping, page-type detection, mediaV2 skip, best-stream pick
 scripts/sheets.mjs          Download + contact sheets: ffmpeg discovery, per-page time ranges
+assets/demo.mp4             The clip shown above (19 s, 1080p, synthetic sample data)
+assets/demo.gif             GIF preview of the same clip, so the README can display it
 CHANGELOG.md                Release notes
 ```
 
@@ -253,7 +276,7 @@ CHANGELOG.md                Release notes
 
 ## Version
 
-Current **0.1.0**: first public release. Extractor, frame script, 7 hard rules, verification step and report template — all validated end-to-end on a real note.
+Current **0.1.1**: documentation revision. The README now leads with plain language, gained a glossary and a stack table, dropped the researched note's own content, and added the demo clip plus the [pairing section](#paired-with-playback). Script behaviour is unchanged from 0.1.0: extractor, frame script, 7 hard rules, verification step and report template — all validated end-to-end on a real note.
 
 See [CHANGELOG.md](CHANGELOG.md).
 
