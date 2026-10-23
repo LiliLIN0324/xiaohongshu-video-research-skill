@@ -1,6 +1,6 @@
 <div align="center">
 
-# 拆条 · xiaohongshu-video-research
+# Breakdown · xiaohongshu-video-research
 
 **Turn a Xiaohongshu video note into a verified research finding**
 
@@ -12,7 +12,7 @@ No-login metadata extraction · source download · frame tiling to read burned-i
 [![no-login](https://img.shields.io/badge/no%20login%20needed-E8A33D?style=flat-square)](#what-it-solves)
 [![stars](https://img.shields.io/github/stars/LiliLIN0324/xiaohongshu-video-research-skill?style=social)](https://github.com/LiliLIN0324/xiaohongshu-video-research-skill/stargazers)
 
-[Quick start](#quick-start) · [Real case](#real-case) · [How it works](#how-it-works) · [中文](README.md)
+[Quick start](#quick-start) · [Real case](#real-case) · [How it works](#how-it-works) · [中文 · 拆条](README.md)
 
 </div>
 
