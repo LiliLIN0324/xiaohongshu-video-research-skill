@@ -13,7 +13,7 @@ No login needed · download the video and read the text on screen · follow the 
 [![no-login](https://img.shields.io/badge/no%20login%20needed-E8A33D?style=flat-square)](#what-it-solves)
 [![stars](https://img.shields.io/github/stars/LiliLIN0324/xiaohongshu-video-research-skill?style=social)](https://github.com/LiliLIN0324/xiaohongshu-video-research-skill/stargazers)
 
-[Quick start](#quick-start) · [Real case](#real-case) · [Glossary](#glossary) · [Stack](#stack-and-requirements) · [中文 · 拆条](README.md)
+[Quick start](#quick-start) · [Measured run](#real-case) · [Glossary](#glossary) · [Stack](#stack-and-requirements) · [中文 · 拆条](README.md)
 
 </div>
 
@@ -27,7 +27,7 @@ Hand an agent a Xiaohongshu video link and ask what it actually says, and three 
 
 1. **Nothing is fetchable.** The site ships an empty page shell and lets the browser assemble the content afterwards. Plain fetchers (`WebFetch`, `curl`) get that shell and zero text; not being logged in adds a modal on top.
 2. **The video is the article.** In tutorial notes the real payload — tool names, model choice, the prompt, the parameters — is drawn **onto the picture**. The written caption is often a single hashtag, so reading the title tells you nothing.
-3. **Restating is not researching.** "The domestic model looks just like Opus" — measured result, or a feeling? You cannot judge that without checking the tools and the account behind the post.
+3. **Restating is not researching.** "This model produces results almost identical to that one" — measured result, or a feeling? You cannot judge that without checking the tools it names and the account behind the post.
 
 ## How it does it
 
@@ -35,31 +35,29 @@ In one line: **don't copy from the screen — take the data the page already car
 
 When Xiaohongshu loads a note it hands the browser a package of that note's data, stored in a variable called `window.__INITIAL_STATE__` (plain meaning in the [glossary](#glossary)). From it we read the title, body, hashtags, publish time, IP region, and the like / save / comment / share counts, plus two things a screenshot can never give you:
 
-- **The video's own chapter markers** — segments the creator labelled (intro / features / method 1 / method 2), each with a timestamp. They say which few seconds matter.
+- **The video's own chapter markers** — segments the creator labelled, each with a timestamp. They say which few seconds matter, so you don't have to sample the whole clip evenly.
 - **Direct addresses of the original video** — with those you download the file, pull frames along the chapter axis, tile them into a couple of contact sheets, and read the subtitles and small print baked into the picture.
 
 Then every product, repository and version number that appears on screen gets verified outside the app, and the author's own profile is measured the same way to see how much reach the note really has.
 
-So the output is not "this video is about making motion graphics with AI", but: "the OpenDesign it demos is a real 100k-star open-source project, while the account posting it has 212 notes and shows 10+ followers, this note has 3 likes, and 'just like Opus' has no controlled comparison behind it."
+So the output is not a sentence like "this video is about X", but a checkable finding: whether the software it mentions really exists and at what scale, whether the effect it claims has any basis, how many people actually see this account, and whether the recipe can be reused as-is.
 
 <a id="real-case"></a>
 
-## Real case
+## Measured run
 
-One 72-second AI motion-graphics tutorial. No login at any point.
+One real tutorial note (72 seconds), end to end, no login at any point. The note's own content does not appear here — it belongs to its creator; this repository documents only what the tool does.
 
 | | |
 |---|---|
-| Metadata | title / body / hashtags / absolute publish time + IP region / 3 likes · 2 saves · 1 share |
-| Chapters | 4 segments, used to target frame extraction |
-| Video source | auto-selected the sharpest copy: 1080p, 10.9 MB, downloaded before its link expired |
+| Metadata | title / body / hashtags / absolute publish time + IP region / likes, saves, shares all captured (comment count comes back empty when logged out — never read it as zero) |
+| Chapters | the creator's own segments and timestamps, used to target frame extraction |
+| Video source | sharpest of several renditions picked automatically: 1080p, 10.9 MB, downloaded before the signed link expired |
 | Frames | 2 contact sheets, 6 frames each, full coverage |
-| Read out | all subtitles + the model dropdown in the UI + **the complete prompt hidden in tiny on-screen text** (needed a crop-and-sharpen pass) |
-| Verified | 2 entities: an open-source repo (real, 100k stars, commits the same day) and a vendor's office agent (real, shipped) |
-| Account | 212 notes / followers shown as 10+ / last 10 notes at 1–21 likes → low-reach tutorial account |
+| Reading the picture | every subtitle line; dropdown options, parameters and version numbers in the UI; a full prompt hidden in tiny on-screen text that only became legible after crop + upscale + sharpen |
+| Verification | any repo, product or version shown on screen can be checked one by one outside the app (specific entries are not listed here) |
+| Reach | the same script pointed at the author's profile yields note count, follower band and recent like spread — enough to tell a genuine tutorial from a funnel post |
 | Elapsed | ~6 minutes |
-
-The prompt itself belongs to the creator and is not reproduced here. Its shape is: *duration + protagonist action + three works entering in sequence + one unified style + palette + texture/motion constraints + "show less text, tell it through action"* — a skeleton reusable for any portfolio film.
 
 <a id="features"></a>
 
@@ -113,7 +111,7 @@ Manually, two steps:
 {
   "page": "note",
   "time": "2026-10-22T09:50:38.000Z",
-  "chapters": [{ "text": "Method 1", "time": 44080 }],
+  "chapters": [{ "text": "<segment name>", "time": 44080 }],
   "video": {
     "durationSec": 72,
     "masterUrl": "http://sns-video-v2.xhscdn.com/stream/…?sign=…&t=…",
