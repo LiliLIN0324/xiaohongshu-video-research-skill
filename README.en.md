@@ -57,7 +57,7 @@ The prompt itself belongs to the creator and is not reproduced here. Its shape i
 
 ## Features
 
-| | |
+| Capability | Notes |
 |---|---|
 | **Bypasses the SPA, not the login** | Data comes from SSR-shipped `__INITIAL_STATE__`: no account, no cookies, no scraping endpoints |
 | **Chapter-first sampling** | Many videos carry `chapters`; extracting along them halves the frame count and never misses a segment |
